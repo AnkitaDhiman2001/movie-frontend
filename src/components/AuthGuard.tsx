@@ -52,9 +52,9 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
 
   if (!currentUser && !publicPaths.includes(pathname)) {
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-            <p className="text-xl text-gray-700 dark:text-gray-300">Redirecting...</p>
-        </div>
+       <div className="flex justify-center items-center min-h-[calc(100vh-200px)]">
+                       <Loader />
+      </div>
     );
   }
 
