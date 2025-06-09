@@ -1,15 +1,14 @@
-// Existing MediaItem for lists
 export interface MediaItem {
   id: string | number;
-  title?: string; // Movies have title
-  name?: string;  // TV shows have name
+  title?: string; 
+  name?: string; 
   poster_path: string | null;
-  release_date?: string; // Movie release date
-  first_air_date?: string; // TV show first air date
+  release_date?: string;
+  first_air_date?: string; 
   vote_average?: number;
   overview?: string;
   media_type: 'movie' | 'tv';
-  genre_ids?: number[]; // Often present in list items
+  genre_ids?: number[]; 
 }
 
 export interface PaginatedResponse<T> {
@@ -19,7 +18,6 @@ export interface PaginatedResponse<T> {
   total_results: number;
 }
 
-// Detailed types
 interface Genre {
   id: number;
   name: string;
@@ -97,7 +95,7 @@ interface Images {
 export interface MovieDetails {
   adult: boolean;
   backdrop_path: string | null;
-  belongs_to_collection: null | object; // Can be more specific if needed
+  belongs_to_collection: null | object; 
   budget: number;
   genres: Genre[];
   homepage: string | null;
@@ -114,15 +112,15 @@ export interface MovieDetails {
   revenue: number;
   runtime: number | null;
   spoken_languages: SpokenLanguage[];
-  status: string; // e.g., "Released", "Post Production"
+  status: string; 
   tagline: string | null;
   title: string;
   video: boolean;
   vote_average: number;
   vote_count: number;
-  credits?: Credits; // From append_to_response
-  videos?: { results: Video[] }; // From append_to_response
-  images?: Images; // From append_to_response
+  credits?: Credits; 
+  videos?: { results: Video[] }; 
+  images?: Images; 
 }
 
 interface CreatedBy {
@@ -176,7 +174,7 @@ export interface TVDetails {
   last_air_date: string;
   last_episode_to_air: LastEpisodeToAir | null;
   name: string;
-  next_episode_to_air: null | any; // Can be more specific if needed
+  next_episode_to_air: null | any; 
   networks: Network[];
   number_of_episodes: number;
   number_of_seasons: number;
@@ -195,7 +193,7 @@ export interface TVDetails {
   type: string;
   vote_average: number;
   vote_count: number;
-  credits?: Credits; // From append_to_response
-  videos?: { results: Video[] }; // From append_to_response
-  images?: Images; // From append_to_response
+  credits?: Credits; 
+  videos?: { results: Video[] }; 
+  images?: Images; 
 }

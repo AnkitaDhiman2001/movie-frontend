@@ -20,7 +20,6 @@ const LoginPage: React.FC = () => {
     if (isLogin) {
       try {
         const res = await login({ email, password }).unwrap();
-        console.log('Logged in:', res.token);
           signin({ email: email }); 
       } catch (err) {
         console.error('Login failed');
@@ -29,7 +28,6 @@ const LoginPage: React.FC = () => {
     } else {
       try {
         const res = await register({ email, password }).unwrap();
-        console.log('Registered:', res.message);
       } catch (err) {
         console.error('Register failed');
         registerError && alert('Registration failed. Please try again.');
@@ -38,7 +36,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-200px)] bg-gray-100 dark:bg-gray-900 px-4">
+    <div className="flex items-center justify-center min-h-[calc(100vh-200px)] bg-[url(/images/moviebg2.jpg)] dark:bg-gray-900 px-4" >
       <div className="w-full max-w-md p-8 space-y-6 bg-white dark:bg-gray-800 rounded-lg shadow-xl">
         <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white">
           Login to Your Account

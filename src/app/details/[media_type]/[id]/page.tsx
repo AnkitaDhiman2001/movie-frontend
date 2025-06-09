@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
-import { useGetMovieDetailsQuery, useGetTVDetailsQuery } from '@/redux/services/tmdb';
+import { useGetMovieDetailsQuery, useGetRecommendationsQuery, useGetTVDetailsQuery } from '@/redux/services/tmdb';
 import { MovieDetails, TVDetails } from '@/types';
+import MovieList from '@/components/MovieList';
 
 const DetailPage: React.FC = () => {
   const params = useParams();
@@ -25,9 +26,14 @@ const DetailPage: React.FC = () => {
     skip: !id || mediaType !== 'tv',
   });
 
+   const { data: recommendations, error: recommendationsError ,isLoading: loadingRecommendations } = useGetRecommendationsQuery({mediaType, id});
+
   const isLoading = mediaType === 'movie' ? movieLoading : tvLoading;
   const error = mediaType === 'movie' ? movieError : tvError;
   const data: MovieDetails | TVDetails | undefined = mediaType === 'movie' ? movieData : tvData;
+
+  const isRecomLoading = loadingRecommendations;
+  const isRecomError = recommendationsError;
 
   useEffect(() => {
     if (mediaType === 'tv' && data) {
@@ -118,29 +124,8 @@ const DetailPage: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 text-gray-900 dark:text-white">
-      {isPlaying && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center">
-          <div className="relative w-full h-full max-w-6xl max-h-[90vh] bg-black rounded-lg overflow-hidden">
-            <button
-              onClick={handleClosePlayer}
-              className="absolute top-4 right-4 z-10 bg-red-600 hover:bg-red-700 text-white p-2 rounded-full transition-colors"
-              aria-label="Close player"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-            
-            {mediaType === 'tv' && (
-              <div className="absolute top-4 left-4 z-10 bg-black bg-opacity-70 text-white p-3 rounded-lg">
-                <p className="text-sm font-semibold">
-                  {title} - Season {selectedSeason}, Episode {selectedEpisode}
-                </p>
-              </div>
-            )}
-
-            <div className="w-full h-full">
-              <iframe
+        <div className="relative h-80 md:h-96 rounded-lg overflow-hidden shadow-lg mb-8">
+             <iframe
                 src={getStreamUrl()}
                 title={mediaType === 'movie' ? `Playing ${title}` : `Playing ${title} S${selectedSeason}E${selectedEpisode}`}
                 className="w-full h-full"
@@ -150,37 +135,8 @@ const DetailPage: React.FC = () => {
                 referrerPolicy="origin"      
                 allowFullScreen
               />
-            </div>
-          </div>
         </div>
-      )}
 
-      {backdrop_path && (
-        <div className="relative h-64 md:h-96 rounded-lg overflow-hidden shadow-lg mb-8">
-          <Image
-            src={`https://image.tmdb.org/t/p/original${backdrop_path}`}
-            alt={`${title} backdrop`}
-            layout="fill"
-            objectFit="cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
-
-          <div className="absolute inset-0 flex items-center justify-center">
-            <button
-              onClick={handlePlay}
-              className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-lg flex items-center space-x-3 transition-all transform hover:scale-105 shadow-xl"
-            >
-              <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z"/>
-              </svg>
-              <span className="text-xl font-semibold">
-                {mediaType === 'movie' ? 'Play Movie' : `Play S${selectedSeason}E${selectedEpisode}`}
-              </span>
-            </button>
-          </div>
-        </div>
-      )}
 
       <div className="md:flex md:space-x-8">
         <div className="md:w-1/3 lg:w-1/4 mb-6 md:mb-0">
@@ -321,6 +277,23 @@ const DetailPage: React.FC = () => {
             </div>
           )}
         </div>
+      </div>
+
+      <div>
+        {isRecomLoading ?  
+         <div className="flex justify-center items-center min-h-[200px]">
+          <p className="text-xl text-gray-700 dark:text-gray-300">Loading Recommendations...</p>
+        </div>
+        :
+        isRecomError ? 
+         <div className="flex justify-center items-center min-h-[200px]">
+          <p className="text-xl text-gray-700 dark:text-gray-300">Failed to load recommendations...</p>
+        </div>
+        :
+          <div className="mt-12">
+        <MovieList items={recommendations?.results?.slice(0, 12)} title="You may like" media_type={mediaType}/>
+           </div>
+      }
       </div>
     </div>
   );

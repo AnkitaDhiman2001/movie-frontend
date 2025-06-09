@@ -16,7 +16,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ item, media_type }) => {
       <a className="block bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition-all hover:scale-105 duration-300 ease-in-out cursor-pointer">
       <div className="relative w-full h-0 pb-[150%]">
         <Image
-            src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
+            src={`${process.env.NEXT_PUBLIC_POSTER_URL}${item.poster_path}`}
             alt={item.title ?? item.name ?? 'Poster'}
           fill
           style={{ objectFit: 'cover' }}
