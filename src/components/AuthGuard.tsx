@@ -32,14 +32,14 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
       return; 
     }
 
-    const pathIsPublic = publicPaths.includes(pathname);
-    const pathIsAuthRoute = authRoutes.includes(pathname);
+    // const pathIsPublic = publicPaths.includes(pathname);
+    // const pathIsAuthRoute = authRoutes.includes(pathname);
 
-    if (!currentUser && !pathIsPublic) {
-      router.push('/auth/login');
-    } else if (currentUser && pathIsAuthRoute) {
-      router.push('/');
-    }
+    // if (!currentUser && !pathIsPublic) {
+    //   router.push('/auth/login');
+    // } else if (currentUser && pathIsAuthRoute) {
+    //   router.push('/');
+    // }
   }, [currentUser, loading, pathname, router]);
 
   if (loading) {
@@ -50,16 +50,16 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
     );
   }
 
-  if (!currentUser && !publicPaths.includes(pathname)) {
-    return (
-       <div className="flex justify-center items-center min-h-[calc(100vh-200px)]">
-                       <Loader />
-      </div>
-    );
-  }
+  // if (!currentUser && !publicPaths.includes(pathname)) {
+  //   return (
+  //      <div className="flex justify-center items-center min-h-[calc(100vh-200px)]">
+  //                      <Loader />
+  //     </div>
+  //   );
+  // }
 
 
-  return <>{children}</>;
+  return <>{children}</>
 };
 
 export default AuthGuard;

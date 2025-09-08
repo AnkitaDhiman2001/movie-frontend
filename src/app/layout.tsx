@@ -24,13 +24,13 @@ export default function RootLayout({
       <body className={`${inter.className} bg-gray-100 dark:bg-gray-900 flex flex-col min-h-screen`}>
         <Providers>
         <AuthProvider> 
-          {/* <AuthGuard>    */}
+          <AuthGuard>   
         <Header />
         <main className="flex-grow container mx-auto px-0 sm:px-4 py-8">
           {children}
         </main>
         <Footer />
-          {/* </AuthGuard> */}
+          </AuthGuard>
         </AuthProvider>
         </Providers>
       </body>

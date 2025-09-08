@@ -48,7 +48,7 @@ const Header: React.FC = () => {
           <Link href="/tv-shows" legacyBehavior><a className="hover:text-gray-300">TV Shows</a></Link>
           <Link href="/search" legacyBehavior><a className="hover:text-gray-300">Search</a></Link>
           
-          {!loading && (
+          {/* {!loading && (
             currentUser ? (
               <>
                 <span className="text-sm text-gray-300 hidden lg:inline">Welcome, {currentUser.email}</span>
@@ -69,7 +69,7 @@ const Header: React.FC = () => {
                 </Link>
               </>
             )
-          )}
+          )} */}
         </nav>
 
         <div className="md:hidden flex items-center">
