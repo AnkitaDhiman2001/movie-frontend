@@ -178,9 +178,11 @@ const DetailPage: React.FC = () => {
                 title={mediaType === 'movie' ? `Playing ${title}` : `Playing ${title} S${selectedSeason}E${selectedEpisode}`}
                 className="w-full h-full"
                 frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-                sandbox="allow-scripts allow-same-origin allow-presentation"
-                referrerPolicy="origin"      
+                referrerPolicy="origin"
+                {...((players !== 1 && players !== 5 ) && {
+                  sandbox: "allow-scripts allow-same-origin allow-presentation"
+                })}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"    
                 allowFullScreen
               />
               :
@@ -190,7 +192,6 @@ const DetailPage: React.FC = () => {
                 className="w-full h-full"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-                // sandbox="allow-scripts allow-same-origin allow-presentation"
                 referrerPolicy="origin"      
                 allowFullScreen
               />     
@@ -204,8 +205,8 @@ const DetailPage: React.FC = () => {
               Player 1
             </button>
             <button
-              onClick={() => setPlayers(2)}
-              className={`px-3 py-1 rounded ${players === 2 ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'}`}
+              onClick={() => setPlayers(5)}
+              className={`px-3 py-1 rounded ${players === 5 ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'}`}
             >
               Player 2
             </button>
@@ -222,14 +223,14 @@ const DetailPage: React.FC = () => {
               Player 4
             </button>
             <button
-              onClick={() => setPlayers(5)}
-              className={`px-3 py-1 rounded ${players === 5 ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'}`}
+              onClick={() => setPlayers(6)}
+              className={`px-3 py-1 rounded ${players === 6 ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'}`}
             >
               Player 5
             </button>
              <button
-              onClick={() => setPlayers(6)}
-              className={`px-3 py-1 rounded ${players === 6 ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'}`}
+              onClick={() => setPlayers(2)}
+              className={`px-3 py-1 rounded ${players === 2 ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'}`}
             >
               Player 6
             </button>
