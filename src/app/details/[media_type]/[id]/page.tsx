@@ -17,6 +17,8 @@ const DetailPage: React.FC = () => {
   const [selectedSeason, setSelectedSeason] = useState<number>(1);
   const [selectedEpisode, setSelectedEpisode] = useState<number>(1);
   const [availableEpisodes, setAvailableEpisodes] = useState<number[]>([]);
+  const [players, setPlayers] = useState<number>(1);
+  const [withSand, setWithSand] = useState<boolean>(true);
 
   const { data: movieData, error: movieError, isLoading: movieLoading } = useGetMovieDetailsQuery(id, {
     skip: !id || mediaType !== 'movie',
@@ -114,6 +116,46 @@ const DetailPage: React.FC = () => {
     }
   };
 
+    const getStreamUrl2 = () => {
+    if (mediaType === 'movie') {
+      return `https://vidsrc.cc/v2/embed/movie/${data.id}`;
+    } else {
+      return `https://vidsrc.cc/v2/embed/tv/${data.id}/${selectedSeason || 1}/${selectedEpisode || 1}`;
+    }
+  };
+
+    const getStreamUrl3 = () => {
+    if (mediaType === 'movie') {
+      return `https://vidsrc.me/embed/movie/${data.id}`;
+    } else {
+      return `https://vidsrc.me/embed/tv/${data.id}/${selectedSeason || 1}/${selectedEpisode || 1}`;  
+    }
+  };
+
+  const getStreamUrl4 = () => {
+    if (mediaType === 'movie') {
+      return `https://player.vidplus.to/embed/movie/${data.id}`;
+    } else {
+      return `https://player.vidplus.to/embed/tv/${data.id}/${selectedSeason || 1}/${selectedEpisode || 1}`;
+    }
+  };
+
+  const getStreamUrl5 = () => {
+    if (mediaType === 'movie') {
+      return `https://vidrock.net/movie/${data.id}`;
+    } else {
+      return `https://vidrock.net/tv/${data.id}/${selectedSeason || 1}/${selectedEpisode || 1}`;
+    }
+  };
+
+  const getStreamUrl6 = () => {
+    if (mediaType === 'movie') {
+      return `https://player.autoembed.cc/embed/movie/${data.id}`;
+    } else {
+      return `https://player.autoembed.cc/embed/tv/${data.id}/${selectedSeason || 1}/${selectedEpisode || 1}`;
+    }
+  };
+
   const handleSeasonChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedSeason(parseInt(event.target.value));
   };
@@ -124,9 +166,15 @@ const DetailPage: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 text-gray-900 dark:text-white">
+      <div>
+        <button onClick={() => setWithSand(!withSand)} className="mb-4 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition">
+          {withSand ? 'Disable' : 'Enable'} Sandbox
+        </button>
+      </div>
         <div className="relative h-80 md:h-96 rounded-lg overflow-hidden shadow-lg mb-8">
-             <iframe
-                src={getStreamUrl()}
+          {withSand == true ?
+          <iframe
+                src={players == 1 ? getStreamUrl() : players == 2 ? getStreamUrl2() : players == 3 ? getStreamUrl3() : players == 4 ? getStreamUrl4() : players == 5 ? getStreamUrl5() : getStreamUrl6()}
                 title={mediaType === 'movie' ? `Playing ${title}` : `Playing ${title} S${selectedSeason}E${selectedEpisode}`}
                 className="w-full h-full"
                 frameBorder="0"
@@ -135,6 +183,57 @@ const DetailPage: React.FC = () => {
                 referrerPolicy="origin"      
                 allowFullScreen
               />
+              :
+              <iframe
+                src={players == 1 ? getStreamUrl() : players == 2 ? getStreamUrl2() : players == 3 ? getStreamUrl3() : players == 4 ? getStreamUrl4() : players == 5 ? getStreamUrl5() : getStreamUrl6()}
+                title={mediaType === 'movie' ? `Playing ${title}` : `Playing ${title} S${selectedSeason}E${selectedEpisode}`}
+                className="w-full h-full"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                // sandbox="allow-scripts allow-same-origin allow-presentation"
+                referrerPolicy="origin"      
+                allowFullScreen
+              />     
+        }
+             
+             <div className="absolute top-4 right-4 space-x-2">
+            <button
+              onClick={() => setPlayers(1)}
+              className={`px-3 py-1 rounded ${players === 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'}`}
+            >
+              Player 1
+            </button>
+            <button
+              onClick={() => setPlayers(2)}
+              className={`px-3 py-1 rounded ${players === 2 ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'}`}
+            >
+              Player 2
+            </button>
+            <button
+              onClick={() => setPlayers(3)}
+              className={`px-3 py-1 rounded ${players === 3 ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'}`}
+            >
+              Player 3
+            </button>
+            <button
+              onClick={() => setPlayers(4)}
+              className={`px-3 py-1 rounded ${players === 4 ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'}`}
+            >
+              Player 4
+            </button>
+            <button
+              onClick={() => setPlayers(5)}
+              className={`px-3 py-1 rounded ${players === 5 ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'}`}
+            >
+              Player 5
+            </button>
+             <button
+              onClick={() => setPlayers(6)}
+              className={`px-3 py-1 rounded ${players === 6 ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'}`}
+            >
+              Player 6
+            </button>
+          </div>
         </div>
 
 
